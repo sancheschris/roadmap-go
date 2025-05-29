@@ -39,11 +39,11 @@ func main() {
 		2: {2, "Edna", "edna@gmail.com"},
 	}
 
-	// products := map[int]Product{
-	// 	101: {101, "Macbook Pro", 1999.99},
-	// 	102: {102, "iPhone 16 Pro", 1099.99},
-	// 	103: {103, "iPad", 899.99},
-	// }
+	products := map[int]Product{
+		101: {101, "Macbook Pro", 1999.99},
+		102: {102, "iPhone 16 Pro", 1099.99},
+		103: {103, "iPad", 899.99},
+	}
 
 	orders := []Order{
 		{"ORD001", 1, []int{101, 102}, 3099.98, "Processing"},
@@ -67,7 +67,21 @@ func main() {
 		fmt.Printf("%+v\n", order)
 	}
 
+	fmt.Printf("\nTotal revenue from orders: $%.2f\n", getTotalRevenueOrders(orders))
 
+	// 4. Get orders filtered by status
+	filteredOrders := getOrderFilteredByStatus(orders, "Delivered")
+	fmt.Println("\nOrders with status 'Delivered':")
+	for _, order := range filteredOrders {
+		fmt.Printf("%+v\n", order)
+	}
+
+	productNames := getProductNamesByIDs([]int{101, 102, 103}, products)
+	fmt.Println("\nProduct names by IDs:")
+	for _, name := range productNames {
+		fmt.Println(name)
+	}
+	
 }
 
 func getTotalOrdersPerUser(orders []Order) map[int]int {
@@ -85,4 +99,32 @@ func changeOrderStatus(orders *[]Order, orderID string, newStatus string) {
 			break
 		}
 	}
+}
+
+func getTotalRevenueOrders(orders []Order) float64 {
+	var total = 0.0
+	for _, order := range orders {
+		total += order.TotalAmount
+	}
+	return total
+}
+
+func getOrderFilteredByStatus(orders []Order, status string) []Order {
+	var filteredOrders []Order
+	for _, order := range orders {
+		if order.Status == status {
+			filteredOrders = append(filteredOrders, order)
+		}
+	}
+	return filteredOrders
+}
+
+func getProductNamesByIDs(productsIDs []int, products map[int]Product) []string {
+	var productNames []string
+	for _, id := range productsIDs {
+		if product, exists := products[id]; exists {
+			productNames = append(productNames, product.Name)
+		}
+	}
+	return productNames
 }
