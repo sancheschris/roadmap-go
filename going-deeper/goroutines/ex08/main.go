@@ -18,14 +18,14 @@ func main() {
 }
 
 func func1() {
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
 		fmt.Println("func1:", i)
 	}
 	wg.Done()
 }
 
 func func2() {
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 100; i++ {
 		fmt.Println("func2:", i)
 	}
 }
