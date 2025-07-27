@@ -21,7 +21,8 @@ func TestCalculateTaxBatch(t *testing.T) {
 	table := []calcTax{
 		{500.0, 5.0},
 		{1000.0, 10.0},
-		{1500.0, 12.0},
+		{1500.0, 10.0},
+		{0.0, 0.0},
 	}
 
 	for _, item := range table {
@@ -31,3 +32,21 @@ func TestCalculateTaxBatch(t *testing.T) {
 		}
 	}
 }
+
+func BenchmarkCalculateTax(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		CalculateTax(500.0)
+	}
+}
+
+func BenchmarkCalculateTax2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		CalculateTax2(500.0)
+	}
+}
+
+// go tool cover -html=coverage.out or go test -coverprofile=coverag.out
+// go test -v
+// go test -bench=. or go test -bench=. -run=^#, 
+// go test -bench=. -run=^# -benchmem
+// go test -bench=. -run=^# -count=3 
