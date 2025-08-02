@@ -7,8 +7,8 @@ import (
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/jwtauth"
+	_ "github.com/sancheschris/goexpert/9-APIS/api/docs"
 	"github.com/sancheschris/goexpert/9-APIS/configs"
-	_ "github.com/sancheschris/goexpert/9-APIS/docs"
 	"github.com/sancheschris/goexpert/9-APIS/internal/entity"
 	"github.com/sancheschris/goexpert/9-APIS/internal/infra/database"
 	"github.com/sancheschris/goexpert/9-APIS/internal/infra/webserver/handlers"
@@ -61,7 +61,7 @@ func main() {
 		r.Use(jwtauth.Authenticator)
 		r.Post("/", productHandler.CreateProduct)
 		r.Get("/", productHandler.FindAll)
-		r.Get("/{id}", productHandler.GetProduct)
+		r.Get("/{id}", productHandler.GetProducts)
 		r.Put("/{id}", productHandler.UpdateProduct)
 		r.Delete("/{id}", productHandler.DeleteProduct)
 	})
