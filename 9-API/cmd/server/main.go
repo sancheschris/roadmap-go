@@ -39,6 +39,6 @@ func main() {
 
 	r.Post("/users", userHandler.Create)
 
-	http.ListenAndServe(":8000", r)
+	http.ListenAndServe(":8080", r)
 }
 
