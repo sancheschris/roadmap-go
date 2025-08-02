@@ -8,13 +8,32 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/jwtauth"
 	"github.com/sancheschris/goexpert/9-APIS/configs"
+	_ "github.com/sancheschris/goexpert/9-APIS/docs"
 	"github.com/sancheschris/goexpert/9-APIS/internal/entity"
 	"github.com/sancheschris/goexpert/9-APIS/internal/infra/database"
 	"github.com/sancheschris/goexpert/9-APIS/internal/infra/webserver/handlers"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
+// @title           Go Expert API EXAMPLE
+// @version         1.0
+// @description     Product API with authentication
+// @termsOfService  http://swagger.io/terms/
+
+// @contact.name   Christian Santos
+// @contact.url    http://www.swagger.io/support
+// @contact.email  support@swagger.io
+
+// @license.name  Apache 2.0
+// @license.url   http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host      localhost:8080
+// @BasePath  /
+// @securityDefinitions.apiKey ApiKeyAuth
+// @in header
+// @name Authorization
 func main() {
 	configs, err := configs.LoadConfig(".")
 	if err != nil {
@@ -49,6 +68,8 @@ func main() {
 
 	r.Post("/users", userHandler.Create)
 	r.Post("/users/generate_token", userHandler.GetJWT)
+
+	r.Get("/docs/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8080/docs/doc.json")))
 
 	http.ListenAndServe(":8080", r)
 }
