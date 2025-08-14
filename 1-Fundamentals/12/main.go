@@ -12,5 +12,5 @@ func main() {
 	*pointer = 20
 	b := &a
 	*b = 40
-	fmt.Println(&a)
+	fmt.Println(a)
 }
