@@ -3,7 +3,13 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println(sum(1, 3, 45, 6, 19, 20, 35))
+	// fmt.Println(sum(1, 3, 45, 6, 19, 20, 35))
+
+	total := func() int {
+		return sum(1, 3, 45, 6, 19, 20, 35)
+	}()
+
+	fmt.Println(total)
 }
 
 func sum(numbers ...int) int {
