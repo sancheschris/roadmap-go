@@ -15,6 +15,11 @@ type Client struct {
 	Address
 }
 
+func (c Client) Disable() {
+	c.Active = false
+	fmt.Printf("The client %s was disabled\n", c.Name)
+}
+
 func main() {
 	chris := Client{
 		Name: "Christian",
@@ -23,6 +28,7 @@ func main() {
 	}
 
 	chris.City = "SP"
+	chris.Disable()
 
 	fmt.Printf("The client name is %s, their age: %d, and their status is: %t and city %s", chris.Name, chris.Age, chris.Active, chris.City)
 }
