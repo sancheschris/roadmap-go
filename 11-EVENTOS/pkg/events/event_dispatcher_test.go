@@ -1,6 +1,7 @@
 package events
 
 import (
+	"sync"
 	"testing"
 	"time"
 
@@ -30,7 +31,7 @@ type TestEventHandler struct{
 	ID string
 }
 
-func (h *TestEventHandler) Handle(event EventInterface) {
+func (h *TestEventHandler) Handle(event EventInterface, wg *sync.WaitGroup) {
 
 }
 
@@ -138,17 +139,26 @@ type MockHandler struct {
 	mock.Mock
 }
 
-func (m *MockHandler) Handle(event EventInterface) {
+func (m *MockHandler) Handle(event EventInterface, wg *sync.WaitGroup) {
 	m.Called(event)
+	wg.Done()
 }
 
-func (suite *EventDispatcherTestSuite) TestEventDispatcher_Dispatch() {
+func (suite *EventDispatcherTestSuite) TestEventDispatcher_Dispatch_Async() {
 	eh := &MockHandler{}
 	eh.On("Handle", &suite.event)
+
+	eh2 := &MockHandler{}
+	eh2.On("Handle", &suite.event)
+
 	suite.eventDispatcher.Register(suite.event.GetName(), eh)
+	suite.eventDispatcher.Register(suite.event.GetName(), eh2)
+
 	suite.eventDispatcher.Dispatch(&suite.event)
 	eh.AssertExpectations(suite.T())
+	eh2.AssertExpectations(suite.T())
 	eh.AssertNumberOfCalls(suite.T(), "Handle", 1)
+	eh2.AssertNumberOfCalls(suite.T(), "Handle", 1)
 
 }
 
