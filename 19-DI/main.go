@@ -5,7 +5,6 @@ import (
 	"fmt"
 
 	_ "github.com/mattn/go-sqlite3"
-	"github.com/sancheschris/goexpert/19-DI/product"
 )
 
 func main() {
@@ -14,11 +13,14 @@ func main() {
 		panic(err)
 	}
 
-	// Create a new product repository
-	repository := product.NewProductRepository(db)
+	// // Create a new product repository
+	// repository := product.NewProductRepository(db)
 
-	// Create a new product usecase
-	usecase := product.NewProductUseCase(repository)
+	// // Create a new product usecase
+	// usecase := product.NewProductUseCase(repository)
+
+	// Using wire
+	usecase := NewUseCase(db)
 
 	product, err := usecase.GetProduct(1)
 	if err != nil {
