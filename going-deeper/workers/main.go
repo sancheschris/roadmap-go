@@ -28,7 +28,8 @@ func main() {
 	close(jobs)
 
 	for a := 1; a <= numJobs; a++ {
-		<-results
+		res := <-results
+    	fmt.Println("result", res)
 	}
 }
 
